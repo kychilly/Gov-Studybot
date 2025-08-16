@@ -126,44 +126,36 @@ public class UnitsCommand {
     }
 
     public static void handleActiveQuestion(SlashCommandInteractionEvent event, User user) {
-        // Since reply is already deferred, use getHook() directly
-        InteractionHook hook = event.getHook();
-        hook.setEphemeral(true); // Ensure ephemeral if not already set
-
         Long messageId = ActiveQuestionTracker.getMessageIdForUser(user);
         Long channelId = ActiveQuestionTracker.getChannelIdForUser(user);
 
-        // Cleanup if message not found
+        // If we can't find the message or channel, clean up and notify user
         if (messageId == null || channelId == null) {
             ActiveQuestionTracker.removeActiveQuestion(user, messageId);
-            hook.sendMessageEmbeds(
-                    new EmbedBuilder()
-                            .setDescription("You don't have a question to review! Get a question with `" + Constants.prefix + "<number>` or `/" + Constants.slashPrefix + "-practice-question`!")
-                            .setColor(0xFFA500)
-                            .build()
-            ).queue();
+            event.getChannel().sendMessage("Your previous question couldn't be found. I've cleared it - you may now request a new one.")
+                    .queue();
             return;
         }
 
-        // Build jump URL
+        // Build the jump URL
         String jumpUrl = String.format("https://discord.com/channels/%s/%d/%d",
                 Objects.requireNonNull(event.getGuild()).getId(),
                 channelId,
                 messageId);
 
-        // Send embed through the existing hook
-        hook.sendMessageEmbeds(
-                new EmbedBuilder()
-                        .setColor(0xFFA500)
-                        .setThumbnail(user.getEffectiveAvatarUrl())
-                        .setDescription(String.format(
-                                "%s, you already have an active question!\n\n" +
-                                        "[➔ Jump to your question](%s)\n\n" +
-                                        "Please answer it before requesting a new one.",
-                                user.getAsMention(),
-                                jumpUrl))
-                        .build()
-        ).queue();
+        // Create an embed with the clickable link
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(0xFFA500) // Orange color for warning
+                .setThumbnail(event.getUser().getEffectiveAvatarUrl())
+                .setDescription(String.format(
+                        "%s, you already have an active question!\n\n" +
+                                "[➔ Jump to your question](%s)\n\n" +
+                                "Please answer it before requesting a new one.",
+                        user.getAsMention(),
+                        jumpUrl
+                ));
+
+        event.replyEmbeds(embed.build()).queue();
     }
 
 }
