@@ -1,0 +1,13 @@
+There are a few steps in order to copy this bot for all possible units. Please make sure to follow each step carefully.
+
+1. The only things you need to change are in Constants and Z_Units
+2. If a comment says to not change the Constant, DO NOT CHANGE IT
+3. For all comments that do not have a (No Change), you may change the constant to whatever you like
+4. Add a question to specific units following the given unit example
+5. If an AP Course does not have 10 units, it is ok. Do not delete the unit classes
+6. Don't forget to add a .env file!!!
+
+
+Additionally, you may contact me at jyam478@gmail.com or 62_620(discord) for more info.
+
+Good luck with your studies!
