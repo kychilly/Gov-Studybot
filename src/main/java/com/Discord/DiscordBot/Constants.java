@@ -164,6 +164,7 @@ public class Constants {
                                 "Contact <@840216337119969301> for any questions",
                         Unit6.numUnit6Questions),
                 false);
+        embed.setFooter("All questions are student-created! Please report if you see any mistakes!");
 
         event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
