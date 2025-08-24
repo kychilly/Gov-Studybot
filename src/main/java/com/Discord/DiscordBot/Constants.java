@@ -41,6 +41,9 @@ public class Constants {
     // To invite the bot to your server
     public static String botInviteLink = "https://discord.com/oauth2/authorize?client_id=1405351632190967939&permissions=2147503104&integration_type=0&scope=bot";
 
+    // Bot mention
+    public static String botMention = "<@1405351632190967939>";
+
     // (No Change) - Integrated AI prompt
     public static String COMMAND_GUIDE_PROMPT =
             "You are the built-in help guide and study assistant for the " + slashPrefix.toUpperCase() + "-Studybot.\n" +
